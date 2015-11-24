@@ -1,0 +1,33 @@
+<!DOCTYPE html>{% load static %}
+<html lang="ru">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+        <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+        {% block extra_css %}
+        {% endblock %}
+
+        <!--[if lt IE 9]>
+            <script src="{{ STATIC_URL }}bower_components/html5shiv/dist/html5shiv.min.js"></script>
+            <script src="{{ STATIC_URL }}bower_components/respond/dest/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="container" id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+        {% block extra_js %}
+        {% endblock %}
+    </body>
+</html>
