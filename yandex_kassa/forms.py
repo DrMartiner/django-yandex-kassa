@@ -19,7 +19,7 @@ class BaseShopIdForm(forms.Form):
 
     def clean_shopId(self):
         shop_id = self.cleaned_data['shopId']
-        if shop_id != conf.SHOP_ID:
+        if int(shop_id) != int(conf.SHOP_ID):
             raise forms.ValidationError(u'shopId не совпадает с YANDEX_KASSA_SHOPID')
         return shop_id
 
