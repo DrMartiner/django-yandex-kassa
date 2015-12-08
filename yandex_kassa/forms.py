@@ -138,6 +138,12 @@ class PaymentForm(BaseShopIdForm, BasePaymentTypeForm,
     def get_display_field_names(self):
         return conf.DISPLAY_FIELDS
 
+    @property
+    def target(self):
+        prefix = ''
+        if conf.DEBUG:
+            prefix = 'demo'
+        return 'https://%smoney.yandex.ru/eshop.xml' % prefix
 
 class CheckOrderForm(BaseShopIdForm, BasePaymentTypeForm,
                      BaseActionForm, BaseOrderForm,
