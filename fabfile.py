@@ -17,7 +17,7 @@ env.roles = ['dev']
 
 @task
 def push():
-    local('git push')
+    local('git push --tags')
 
 
 @task
