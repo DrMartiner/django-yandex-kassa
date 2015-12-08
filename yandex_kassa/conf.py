@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import ast
 from django.conf import settings
 
 DEBUG = getattr(settings, 'YANDEX_KASSA_DEBUG', False)
+if isinstance(DEBUG, basestring):
+    DEBUG = ast.literal_eval(DEBUG)
 
 SCID = getattr(settings, 'YANDEX_KASSA_SCID')
 SHOP_ID = getattr(settings, 'YANDEX_KASSA_SHOP_ID')
