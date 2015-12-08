@@ -7,22 +7,12 @@ from fabric.api import local
 
 from fabric.api import env
 from fabric.api import sudo
-from fabric.contrib.project import rsync_project
 
 env.use_ssh_config = True
 env.roledefs = {
     'dev': ['mypre'],
 }
 env.roles = ['dev']
-
-
-@task
-def up():
-    excludes = ('.DS_Store', '*.pyc', '._*',
-                '.env', 'settings_local.py',
-                'media', 'coffee', '.svn', '.git')
-    rsync_project('/home/drmartiner/pixelgold/src/', './yandex_kassa', exclude=excludes)
-    sudo('service uwsgi restart pixelgold')
 
 
 @task
