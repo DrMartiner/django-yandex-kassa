@@ -4,7 +4,7 @@ import os
 from distutils.core import setup
 
 __author__ = 'Alexei Kuzmin'
-__version__ = '0.9.0'
+__version__ = "0.9.1"
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
