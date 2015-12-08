@@ -146,15 +146,13 @@ class PaymentAvisoView(BaseFormView):
             content = self.get_xml(dict(code=200, message=msg))
             return self.get_response(content)
 
-        data = dict(code=0, shopId=payment.shop_id,
-                    invoiceId=payment.invoice_id,
-                    performedDatetime=payment.performed_datetime)
-        content = self.get_xml(data)
+        # т.к. выжен порядок атрибутов :-(
+        content = """<paymentAvisoResponse performedDatetime ="{0}" code="{1}" invoiceId="{2}" shopId="{3}" />
+        """.format(
+            payment.performed_datetime.isoformat(),
+            0, payment.invoice_id, payment.shop_id
+        )
         return self.get_response(content)
-
-    def get_xml_element(self, **params):
-        params = {k: unicode(v) for k, v in params.items()}
-        return E.paymentAvisoResponse(**params)
 
 
 class CancelOrderView(View):

@@ -117,6 +117,6 @@ class Payment(models.Model):
             payment_fail.send(sender=self)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('-created', )
         verbose_name = 'платеж'
         verbose_name_plural = 'Платежи'

@@ -5,9 +5,9 @@ from yandex_kassa.models import Payment
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('customer_number', 'status', 'order_amount', 'payment_type',
-                    'user', 'created', 'performed_datetime', 'is_payed_status')
-    list_filter = ('status', 'created', 'performed_datetime', 'payment_type')
+    list_display = ('customer_number', 'is_payed_status', 'order_amount', 'payment_type',
+                    'user', 'created', 'performed_datetime')
+    list_filter = ('status', 'created', 'performed_datetime')
     search_fields = ('customer_number', 'invoice_id', 'payer_code')
 
     def is_payed_status(self, obj):
