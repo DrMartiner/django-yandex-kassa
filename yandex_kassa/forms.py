@@ -118,6 +118,12 @@ class PaymentForm(BaseShopIdForm, BasePaymentTypeForm,
 
         self.fields['shopId'].widget.attrs['readonly'] = True
 
+        payment_types_choices = []
+        for t in Payment.PAYMENT_TYPE.CHOICES:
+            if t[0] in conf.PAYMENT_TYPES:
+                payment_types_choices.append(t)
+        self.fields['payment_type'] = forms.ChoiceField(choices=payment_types_choices)
+
         if not conf.DEBUG:
             self.fields['scid'].widget = forms.HiddenInput()
             self.fields['shopId'].widget = forms.HiddenInput()

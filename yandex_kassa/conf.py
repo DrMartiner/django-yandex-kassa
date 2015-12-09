@@ -17,3 +17,5 @@ DISPLAY_FIELDS = getattr(settings, 'YANDEX_KASSA_DISPLAY_FIELDS',
 CALLBACK_URL = getattr(settings, 'YANDEX_KASSA_CALLBACK_URL', '/kassa/callback/')
 FAIL_URL = getattr(settings, 'YANDEX_KASSA_FAIL_URL', '/kassa/fail/')
 SUCCESS_URL = getattr(settings, 'YANDEX_KASSA_SUCCESS_URL', '/kassa/success/')
+
+PAYMENT_TYPES = getattr(settings, 'PAYMENT_TYPE', ['ab', 'ac', 'gp', 'pb', 'pc', 'wm'])
