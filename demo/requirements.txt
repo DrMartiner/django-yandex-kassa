@@ -1,5 +1,15 @@
+beautifulsoup4==4.4.1
 Django==1.8.6
+django-annoying==0.8.4
+django-bootstrap3==6.2.2
+django-webtest==1.7.8
 ecdsa==0.13
 Fabric==1.10.2
+lxml==3.5.0
 paramiko==1.16.0
 pycrypto==2.6.1
+six==1.10.0
+waitress==0.8.10
+WebOb==1.5.1
+WebTest==2.0.20
+wheel==0.24.0
