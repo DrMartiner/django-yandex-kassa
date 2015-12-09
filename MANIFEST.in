@@ -1,5 +1,8 @@
 include AUTHORS.rst
 include LICENSE
 include README.rst
-recursive-include yandex_kassa *.py *.html
-recursive-include demo  *.py *.html *.png *.gif *js *jpg *jpeg *svg *py
+recursive-include yandex_kassa/ *.py
+recursive-include yandex_kassa/migrations/ *.py
+recursive-include yandex_kassa/templates/yandex_kassa/ *.html
+recursive-include yandex_kassa/tests/ *.py
+

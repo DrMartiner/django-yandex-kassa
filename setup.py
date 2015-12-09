@@ -2,6 +2,7 @@
 
 import os
 from distutils.core import setup
+from setuptools import find_packages
 
 __author__ = 'Alexei Kuzmin'
 __version__ = "0.9.3"
@@ -11,7 +12,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-yandex-kassa',
     version=__version__,
-    packages=['yandex_kassa'],
+    packages=find_packages(),
+    include_package_data=True,
     url='https://github.com/DrMartiner/django-yandex-kassa',
     license='MIT',
     author=__author__,
