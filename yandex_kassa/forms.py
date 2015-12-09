@@ -25,7 +25,7 @@ class BaseShopIdForm(forms.Form):
 
 
 class BaseCustomerNumberForm(forms.Form):
-    customerNumber = forms.CharField(label='Номер заказа', min_length=1, max_length=64, widget=readonly_widget)
+    customerNumber = forms.CharField(label=' ID пользователя', min_length=1, max_length=64, widget=readonly_widget)
 
     def get_payment(self):
         customer_number = self.cleaned_data.get('customerNumber')
