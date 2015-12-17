@@ -35,6 +35,7 @@ class Payment(models.Model):
         PC = 'pc'
         SB = 'sb'
         WM = 'wm'
+        QW = 'qw'
 
         CHOICES = (
             (AB, u'Альфа-Клик'),
@@ -46,6 +47,7 @@ class Payment(models.Model):
             (PC, u'Кошелек Яндекс.Денег'),
             (SB, u'Сбербанк Онлайн'),
             (WM, u'Кошелек WebMoney'),
+            (QW, u'QiWi кошелёк'),
         )
 
     class CURRENCY:
