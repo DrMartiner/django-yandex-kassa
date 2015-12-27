@@ -116,6 +116,7 @@ class CheckOrderView(BaseFormView):
         data = dict(code=0, shopId=conf.SHOP_ID, invoiceId=cd['invoiceId'],
                     performedDatetime=payment.performed_datetime.isoformat())
         content = self.get_xml(data)
+        logger.debug(u'Ответ CheckOrderView: "%s"' % content)
         return self.get_response(content)
 
     def get_xml_element(self, **params):
@@ -158,6 +159,7 @@ class PaymentAvisoView(BaseFormView):
             payment.performed_datetime.isoformat(),
             0, payment.invoice_id, payment.shop_id
         )
+        logger.debug(u'Ответ PaymentAvisoView: "%s"' % content)
         return self.get_response(content)
 
     def get_xml_element(self, **params):
