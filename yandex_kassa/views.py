@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import conf
+import json
 import logging
 from lxml.builder import E
 from datetime import datetime
@@ -22,6 +23,11 @@ logger = logging.getLogger('kassa')
 class BaseFormView(FormView):
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
+        post_data = json.dumps(self.request.POST,
+                               encoding='utf8', ensure_ascii=False)
+        msg = u'URL="%s" POST="%s"' % (self.request.path, post_data)
+        logger.debug(msg)
+
         return super(BaseFormView, self).dispatch(*args, **kwargs)
 
     def get_form_errors(self, form):
@@ -45,7 +51,7 @@ class BaseFormView(FormView):
 
     def form_invalid(self, form):
         errors = self.get_form_errors(form)
-        logger.error(u'Ошибка при валидации формы проверки платежа', extra=dict(errors=errors))
+        logger.info(u'Ошибка при валидации формы проверки платежа', extra=dict(errors=errors))
 
         data = dict(code=200)  # Внутренняя ошибка магазина
 
@@ -64,7 +70,7 @@ class BaseFormView(FormView):
             try:
                 payment.save()
             except Exception, e:
-                logger.error(u'Ошибка при сохранение платеж', exc_info=True)
+                logger.warn(u'Ошибка при сохранение платеж', exc_info=True)
 
         content = self.get_xml(data)
         return self.get_response(content)
@@ -83,7 +89,7 @@ class CheckOrderView(BaseFormView):
         order_num = cd['customerNumber']
 
         if not self.check_md5(cd):
-            logger.error(u'Ошибка при проверке MD5 платеж #%s' % order_num, exc_info=True)
+            logger.warn(u'Ошибка при проверке MD5 платеж #%s' % order_num, exc_info=True)
             content = self.get_xml(dict(code=1))
             return self.get_response(content)
 
@@ -97,11 +103,11 @@ class CheckOrderView(BaseFormView):
             try:
                 payment.save()
             except Exception, e:
-                logger.error(u'Ошибка при сохранение платеж #%s' % order_num, exc_info=True)
+                logger.warn(u'Ошибка при сохранение платеж #%s' % order_num, exc_info=True)
                 content = self.get_xml(dict(code=200))
                 return self.get_response(content)
         else:
-            logger.error(u'Платеж с номером #%s' % order_num, exc_info=True)
+            logger.info(u'Платеж с номером #%s не найден' % order_num, exc_info=True)
             content = self.get_xml(dict(code=200))
             return self.get_response(content)
 
@@ -127,7 +133,7 @@ class PaymentAvisoView(BaseFormView):
 
         if not self.check_md5(cd):
             msg = u'Ошибка при проверке MD5 платеж #%s' % order_num
-            logger.error(msg, exc_info=True)
+            logger.warn(msg, exc_info=True)
             content = self.get_xml(dict(code=1, message=msg))
             return self.get_response(content)
 
@@ -142,7 +148,7 @@ class PaymentAvisoView(BaseFormView):
             logger.info(u'Платеж #%s оплачен' % order_num)
         except Exception, e:
             msg = u'Ошибка при сохранение платеж #%s' % order_num
-            logger.error(msg, exc_info=True)
+            logger.warn(msg, exc_info=True)
             content = self.get_xml(dict(code=200, message=msg))
             return self.get_response(content)
 
