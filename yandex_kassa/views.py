@@ -119,7 +119,7 @@ class CheckOrderView(BaseFormView):
         return self.get_response(content)
 
     def get_xml_element(self, **params):
-        params = {k: str(v) for k, v in params.items()}
+        params = {k: unicode(v) for k, v in params.items()}
         return E.checkOrderResponse(**params)
 
 
@@ -159,6 +159,10 @@ class PaymentAvisoView(BaseFormView):
             0, payment.invoice_id, payment.shop_id
         )
         return self.get_response(content)
+
+    def get_xml_element(self, **params):
+        params = {k: unicode(v) for k, v in params.items()}
+        return E.paymentAvisoResponse(**params)
 
 
 class CancelOrderView(View):
