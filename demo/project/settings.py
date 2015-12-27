@@ -94,6 +94,40 @@ YANDEX_KASSA_SCID = 123
 YANDEX_KASSA_SHOP_ID = 123
 YANDEX_KASSA_SHOP_PASSWORD = 'password'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['console'],
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s - %(module)s: %(message)s [ERRORS = "%(errors)s"]'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'filters': {
+        'kassa_errors': {
+            '()': 'yandex_kassa.loggers.ErrorsFilter',
+        }
+    },
+    'loggers': {
+        'kassa': {
+            'level': 'DEBUG',
+            'propagate': False,
+            'handlers': ['console', ],
+            'filters': ['kassa_errors'],
+        },
+    },
+}
+
 try:
     from settings_local import *
 except ImportError:
