@@ -51,7 +51,10 @@ class BaseFormView(FormView):
 
     def form_invalid(self, form):
         errors = self.get_form_errors(form)
-        logger.info(u'Ошибка при валидации формы проверки платежа', extra=dict(errors=errors))
+
+        msg = u'Ошибка при валидации формы проверки платежа '
+        logger.info(msg, extra=dict(errors=errors))
+        logger.debug(msg + str(errors))
 
         data = dict(code=200)  # Внутренняя ошибка магазина
 
