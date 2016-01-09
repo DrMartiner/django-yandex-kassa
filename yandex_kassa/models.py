@@ -26,16 +26,16 @@ class Payment(models.Model):
         )
 
     class PAYMENT_TYPE:
-        AB = 'ab'
-        AC = 'ac'
-        GP = 'gp'
-        MA = 'ma'
-        MC = 'mc'
-        PB = 'pb'
-        PC = 'pc'
-        SB = 'sb'
-        WM = 'wm'
-        QW = 'qw'
+        AB = 'AB'
+        AC = 'AC'
+        GP = 'GP'
+        MA = 'MA'
+        MC = 'MC'
+        PB = 'PB'
+        PC = 'PC'
+        SB = 'SB'
+        WM = 'WM'
+        QW = 'QW'
 
         CHOICES = (
             (AB, u'Альфа-Клик'),
