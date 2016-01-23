@@ -80,7 +80,7 @@ class BasePaymentTypeForm(forms.Form):
         for t in Payment.PAYMENT_TYPE.CHOICES:
             if t[0] in conf.PAYMENT_TYPES:
                 payment_types_choices.append(t)
-        self.fields['paymentType'] = forms.ChoiceField(choices=payment_types_choices)
+        self.fields['paymentType'].widget.choices = payment_types_choices
 
 
 class BaseActionForm(forms.Form):
