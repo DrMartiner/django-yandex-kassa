@@ -7,6 +7,7 @@ from fabric.api import local
 
 from fabric.api import env
 from fabric.api import sudo
+from fabric.tasks import execute
 
 env.use_ssh_config = True
 env.roledefs = {
@@ -17,11 +18,17 @@ env.roles = ['dev']
 
 @task
 def push():
+    """
+    Делает "git push --tags"
+    """
     local('git push --tags')
 
 
 @task
 def upload():
+    """
+    Заливает новую версию в PyPi
+    """
     local('python setup.py sdist upload')
 
 
@@ -37,7 +44,7 @@ def get_last_version_from_tags():
 @task
 def inc_v():
     """
-    Increase the version
+    Берет версию из git tag, увеличивает её и перезаписывает в setup.py.
     """
     if 'nothing to commit' not in subprocess.check_output(["git", "status"]):
         print 'Error: You must commit current changes first'
@@ -62,3 +69,13 @@ def inc_v():
     subprocess.check_output(["git", 'tag', '%s' % new_version])
 
     print '\nVersion %s created. Push it to origin with "git push --tags"' % new_version
+
+
+@task
+def make_new():
+    """
+    Зовёт inc_v, push и upload
+    """
+    execute(inc_v)
+    execute(push)
+    execute(upload)

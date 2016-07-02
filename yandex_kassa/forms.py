@@ -73,6 +73,15 @@ class BasePaymentTypeForm(forms.Form):
                                   min_length=2, max_length=2,
                                   initial=Payment.PAYMENT_TYPE.AC)
 
+    def __init__(self, *args, **kwargs):
+        super(BasePaymentTypeForm, self).__init__(*args, **kwargs)
+
+        payment_types_choices = []
+        for t in Payment.PAYMENT_TYPE.CHOICES:
+            if t[0] in conf.PAYMENT_TYPES:
+                payment_types_choices.append(t)
+        self.fields['paymentType'].widget.choices = payment_types_choices
+
 
 class BaseActionForm(forms.Form):
     class ACTION:
@@ -118,12 +127,6 @@ class PaymentForm(BaseShopIdForm, BasePaymentTypeForm,
 
         self.fields['shopId'].widget.attrs['readonly'] = True
 
-        payment_types_choices = []
-        for t in Payment.PAYMENT_TYPE.CHOICES:
-            if t[0] in conf.PAYMENT_TYPES:
-                payment_types_choices.append(t)
-        self.fields['payment_type'] = forms.ChoiceField(choices=payment_types_choices)
-
         if not conf.DEBUG:
             self.fields['scid'].widget = forms.HiddenInput()
             self.fields['shopId'].widget = forms.HiddenInput()
@@ -150,6 +153,7 @@ class PaymentForm(BaseShopIdForm, BasePaymentTypeForm,
         if conf.DEBUG:
             prefix = 'demo'
         return 'https://%smoney.yandex.ru/eshop.xml' % prefix
+
 
 class CheckOrderForm(BaseShopIdForm, BasePaymentTypeForm,
                      BaseActionForm, BaseOrderForm,
