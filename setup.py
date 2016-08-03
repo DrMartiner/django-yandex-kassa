@@ -41,5 +41,6 @@ setup(
         'pycrypto==2.6.1',
         'django-annoying',
         'lxml',
+        'six'
     ],
 )

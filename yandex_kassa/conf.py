@@ -3,8 +3,10 @@
 import ast
 from django.conf import settings
 
+import six
+
 DEBUG = getattr(settings, 'YANDEX_KASSA_DEBUG', False)
-if isinstance(DEBUG, basestring):
+if isinstance(DEBUG, six.string_types[0]):
     DEBUG = ast.literal_eval(DEBUG)
 
 SCID = getattr(settings, 'YANDEX_KASSA_SCID')

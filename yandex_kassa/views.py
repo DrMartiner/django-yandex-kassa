@@ -13,6 +13,8 @@ from django.views.decorators.http import require_POST
 from django.views.generic import View
 from django.views.generic import FormView
 from django.views.generic import TemplateView
+
+import six
 from .forms import BaseMd5Form
 from .forms import CheckOrderForm
 from .forms import PaymentAvisoForm
@@ -74,7 +76,7 @@ class BaseFormView(FormView):
             payment.status = Payment.STATUS.FAIL
             try:
                 payment.save()
-            except Exception, e:
+            except Exception as e:
                 logger.warn(u'Ошибка при сохранение платеж', exc_info=True)
 
         content = self.get_xml(data)
@@ -107,7 +109,7 @@ class CheckOrderView(BaseFormView):
 
             try:
                 payment.save()
-            except Exception, e:
+            except Exception as e:
                 logger.warn(u'Ошибка при сохранение платеж #%s' % order_num, exc_info=True)
                 content = self.get_xml(dict(code=200))
                 return self.get_response(content)
@@ -125,7 +127,7 @@ class CheckOrderView(BaseFormView):
         return self.get_response(content)
 
     def get_xml_element(self, **params):
-        params = {k: unicode(v) for k, v in params.items()}
+        params = {k: six.text_type(v) for k, v in params.items()}
         return E.checkOrderResponse(**params)
 
 
@@ -152,7 +154,7 @@ class PaymentAvisoView(BaseFormView):
             payment.save()
             payment.send_signals()
             logger.info(u'Платеж #%s оплачен' % order_num)
-        except Exception, e:
+        except Exception as e:
             msg = u'Ошибка при сохранение платеж #%s' % order_num
             logger.warn(msg, exc_info=True)
             content = self.get_xml(dict(code=200, message=msg))
@@ -168,7 +170,7 @@ class PaymentAvisoView(BaseFormView):
         return self.get_response(content)
 
     def get_xml_element(self, **params):
-        params = {k: unicode(v) for k, v in params.items()}
+        params = {k: six.text_type(v) for k, v in params.items()}
         return E.paymentAvisoResponse(**params)
 
 
