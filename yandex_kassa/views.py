@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import conf
+from . import conf
 import json
 import logging
 from lxml.builder import E

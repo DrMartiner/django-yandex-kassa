@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import conf
+from . import conf
 from django.db import models
 from django.conf import settings
 from .signals import payment_process
