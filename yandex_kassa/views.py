@@ -49,7 +49,7 @@ class BaseFormView(FormView):
         return ElementTree.tostring(elem, 'utf-8', 'xml')
 
     def get_response(self, content):
-        content = '<?xml version="1.0" encoding="UTF-8"?>\n' + content
+        content = b'<?xml version="1.0" encoding="UTF-8"?>\n' + content
         return HttpResponse(content, content_type='application/xml')
 
     def form_invalid(self, form):
