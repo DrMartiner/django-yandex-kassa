@@ -27,8 +27,7 @@ class BaseFormView(FormView):
     @method_decorator(csrf_exempt)
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
-        post_data = json.dumps(self.request.POST,
-                               encoding='utf8', ensure_ascii=False)
+        post_data = json.dumps(self.request.POST, ensure_ascii=False)
         msg = u'URL="%s" POST="%s"' % (self.request.path, post_data)
         logger.debug(msg)
 
