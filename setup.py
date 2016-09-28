@@ -36,10 +36,9 @@ setup(
     install_requires=[
         'Django>1.6',
         'ecdsa==0.13',
-        'Fabric==1.10.2',
-        'paramiko==1.16.0',
         'pycrypto==2.6.1',
         'django-annoying',
         'lxml',
+        'six'
     ],
 )

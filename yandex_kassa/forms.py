@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import conf
+from . import conf
 import logging
 from hashlib import md5
 from django import forms

@@ -5,7 +5,7 @@ media
 build/*
 reports/*
 db.sqlite3
-
+env/
 .DS_Store
 ._*
 .~*#
