@@ -58,6 +58,7 @@ django-yandex-kassa
 #. Указать в settings следующие параметры:
 
     .. code:: python
+    
         YANDEX_KASSA_DEBUG = False
         YANDEX_KASSA_SCID = 123123
         YANDEX_KASSA_SHOP_ID = 123123
