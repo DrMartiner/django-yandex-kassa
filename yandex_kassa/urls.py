@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^payment-aviso/?$', views.PaymentAvisoView.as_view(), name='kassa_payment_aviso'),
 
     url(r'^success/?$', views.SuccessPageView.as_view(), name='kassa_success'),
-    url(r'^fal/?$', views.FailPageView.as_view(), name='kassa_fail'),
+    url(r'^fail/?$', views.FailPageView.as_view(), name='kassa_fail'),
 ]
