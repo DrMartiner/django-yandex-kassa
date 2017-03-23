@@ -37,7 +37,6 @@ setup(
         'Django>1.6',
         'ecdsa==0.13',
         'pycrypto==2.6.1',
-        'django-annoying',
         'lxml',
         'six'
     ],

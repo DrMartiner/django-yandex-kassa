@@ -5,7 +5,7 @@ import logging
 from hashlib import md5
 from django import forms
 from .models import Payment
-from annoying.functions import get_object_or_None
+from .utils import get_object_or_None
 
 logger = logging.getLogger('kassa')
 
