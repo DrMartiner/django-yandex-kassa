@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from . import conf
 import json
 import logging
-from lxml.builder import E
 from datetime import datetime
 from xml.etree import ElementTree
 from django.http import HttpResponse
@@ -28,7 +29,7 @@ class BaseFormView(FormView):
     @method_decorator(require_POST)
     def dispatch(self, *args, **kwargs):
         post_data = json.dumps(self.request.POST, ensure_ascii=False)
-        msg = u'URL="%s" POST="%s"' % (self.request.path, post_data)
+        msg = 'URL="%s" POST="%s"' % (self.request.path, post_data)
         logger.debug(msg)
 
         return super(BaseFormView, self).dispatch(*args, **kwargs)
@@ -46,16 +47,17 @@ class BaseFormView(FormView):
 
     def get_xml(self, params):
         elem = self.get_xml_element(**params)
-        return ElementTree.tostring(elem, 'utf-8', 'xml')
+        return ElementTree.tostring(elem, 'unicode', 'xml')
 
     def get_response(self, content):
-        content = b'<?xml version="1.0" encoding="UTF-8"?>\n' + content
-        return HttpResponse(content, content_type='application/xml')
+        content = '<?xml version="1.0" encoding="UTF-8"?>\n' + content
+        return HttpResponse(content.encode('utf-8'),
+                            content_type='application/xml')
 
     def form_invalid(self, form):
         errors = self.get_form_errors(form)
 
-        msg = u'Ошибка при валидации формы проверки платежа '
+        msg = 'Ошибка при валидации формы проверки платежа '
         logger.info(msg, extra=dict(errors=errors))
         logger.debug(msg + str(errors))
 
@@ -76,7 +78,7 @@ class BaseFormView(FormView):
             try:
                 payment.save()
             except Exception as e:
-                logger.warn(u'Ошибка при сохранение платеж', exc_info=True)
+                logger.warn('Ошибка при сохранение платеж', exc_info=True)
 
         content = self.get_xml(data)
         return self.get_response(content)
@@ -95,7 +97,7 @@ class CheckOrderView(BaseFormView):
         order_num = cd['customerNumber']
 
         if not self.check_md5(cd):
-            logger.warn(u'Ошибка при проверке MD5 платеж #%s' % order_num, exc_info=True)
+            logger.warn('Ошибка при проверке MD5 платеж #%s' % order_num, exc_info=True)
             content = self.get_xml(dict(code=1))
             return self.get_response(content)
 
@@ -109,11 +111,11 @@ class CheckOrderView(BaseFormView):
             try:
                 payment.save()
             except Exception as e:
-                logger.warn(u'Ошибка при сохранение платеж #%s' % order_num, exc_info=True)
+                logger.warn('Ошибка при сохранение платеж #%s' % order_num, exc_info=True)
                 content = self.get_xml(dict(code=200))
                 return self.get_response(content)
         else:
-            logger.info(u'Платеж с номером #%s не найден' % order_num, exc_info=True)
+            logger.info('Платеж с номером #%s не найден' % order_num, exc_info=True)
             content = self.get_xml(dict(code=200))
             return self.get_response(content)
 
@@ -122,12 +124,12 @@ class CheckOrderView(BaseFormView):
         data = dict(code=0, shopId=conf.SHOP_ID, invoiceId=cd['invoiceId'],
                     performedDatetime=payment.performed_datetime.isoformat())
         content = self.get_xml(data)
-        logger.debug(u'Ответ CheckOrderView: "%s"' % content)
+        logger.debug('Ответ CheckOrderView: "%s"' % content)
         return self.get_response(content)
 
     def get_xml_element(self, **params):
         params = {k: six.text_type(v) for k, v in params.items()}
-        return E.checkOrderResponse(**params)
+        return ElementTree.Element('checkOrderResponse', attrib=params)
 
 
 class PaymentAvisoView(BaseFormView):
@@ -139,7 +141,7 @@ class PaymentAvisoView(BaseFormView):
         order_num = cd['customerNumber']
 
         if not self.check_md5(cd):
-            msg = u'Ошибка при проверке MD5 платеж #%s' % order_num
+            msg = 'Ошибка при проверке MD5 платеж #%s' % order_num
             logger.warn(msg, exc_info=True)
             content = self.get_xml(dict(code=1, message=msg))
             return self.get_response(content)
@@ -152,9 +154,9 @@ class PaymentAvisoView(BaseFormView):
         try:
             payment.save()
             payment.send_signals()
-            logger.info(u'Платеж #%s оплачен' % order_num)
+            logger.info('Платеж #%s оплачен' % order_num)
         except Exception as e:
-            msg = u'Ошибка при сохранение платеж #%s' % order_num
+            msg = 'Ошибка при сохранение платеж #%s' % order_num
             logger.warn(msg, exc_info=True)
             content = self.get_xml(dict(code=200, message=msg))
             return self.get_response(content)
@@ -165,12 +167,12 @@ class PaymentAvisoView(BaseFormView):
             payment.performed_datetime.isoformat(),
             0, payment.invoice_id, payment.shop_id
         )
-        logger.debug(u'Ответ PaymentAvisoView: "%s"' % content)
+        logger.debug('Ответ PaymentAvisoView: "%s"' % content)
         return self.get_response(content)
 
     def get_xml_element(self, **params):
         params = {k: six.text_type(v) for k, v in params.items()}
-        return E.paymentAvisoResponse(**params)
+        return ElementTree.Element('paymentAvisoResponse', attrib=params)
 
 
 class CancelOrderView(View):

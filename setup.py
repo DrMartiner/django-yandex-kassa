@@ -35,10 +35,12 @@ setup(
     ],
     install_requires=[
         'Django>1.6',
-        'ecdsa==0.13',
-        'pycrypto==2.6.1',
-        'django-annoying',
-        'lxml',
-        'six'
+        'six',
     ],
+    extras_require={
+        'dev': [
+            'ecdsa==0.13',
+            'pycrypto==2.6.1',
+        ]
+    },
 )

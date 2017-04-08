@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+import six
 
 from . import conf
 import logging
 from hashlib import md5
 from django import forms
 from .models import Payment
-from annoying.functions import get_object_or_None
+from .utils import get_object_or_None
 
 logger = logging.getLogger('kassa')
 
@@ -36,7 +37,7 @@ class BaseCustomerNumberForm(forms.Form):
         payment = get_object_or_None(Payment, customer_number=customer_number)
         if not payment:
             raise forms.ValidationError(
-                u'Заказ с номером %s не найден' % str(customer_number)
+                u'Заказ с номером %s не найден' % six.text_type(customer_number)
             )
         return customer_number
 
@@ -53,18 +54,18 @@ class BaseMd5Form(forms.Form):
         """
         action;orderSumAmount;orderSumCurrencyPaycash;orderSumBankPaycash;shopId;invoiceId;customerNumber;shopPassword
         """
-        cd = {k: str(v) for k, v in cd.items()}
+        cd = {k: six.text_type(v) for k, v in cd.items()}
 
         params = [cd['action'],
-                  str(cd['orderSumAmount']),
-                  str(cd['orderSumCurrencyPaycash']),
-                  str(cd['orderSumBankPaycash']),
-                  str(cd['shopId']),
-                  str(cd['invoiceId']),
-                  str(cd['customerNumber']),
+                  six.text_type(cd['orderSumAmount']),
+                  six.text_type(cd['orderSumCurrencyPaycash']),
+                  six.text_type(cd['orderSumBankPaycash']),
+                  six.text_type(cd['shopId']),
+                  six.text_type(cd['invoiceId']),
+                  six.text_type(cd['customerNumber']),
                   conf.SHOP_PASSWORD]
-        s = str(';'.join(params))
-        return md5(s).hexdigest().upper()
+        s = six.text_type(';'.join(params))
+        return md5(s.encode('utf-8')).hexdigest().upper()
 
 
 class BasePaymentTypeForm(forms.Form):

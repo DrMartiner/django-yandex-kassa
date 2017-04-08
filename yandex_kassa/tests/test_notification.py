@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from random import randint
 from app.models import Order
 from .base_test import BaseTest
@@ -74,7 +76,7 @@ class TestCheckOrder(BaseTest):
 
         self.assertEquals(res.status_code, 200, 'HTTP code is not 200')
 
-        body = '<?xml version="1.0" encoding="UTF-8"?>\n<checkOrderResponse code="200" />'
+        body = b'<?xml version="1.0" encoding="UTF-8"?>\n<checkOrderResponse code="200" />'
         self.assertEqual(body, res.body, 'Body is not contains code="200"')
 
         payment = Payment.objects.get(pk=payment.pk)
@@ -101,7 +103,7 @@ class TestCheckOrder(BaseTest):
 
         self.assertEquals(res.status_code, 200, 'HTTP code is not 200')
 
-        body = '<?xml version="1.0" encoding="UTF-8"?>\n<checkOrderResponse code="1" />'
+        body = b'<?xml version="1.0" encoding="UTF-8"?>\n<checkOrderResponse code="1" />'
         self.assertEqual(body, res.body, 'Body is not contains code="1"')
 
         payment = Payment.objects.get(pk=payment.pk)
@@ -175,7 +177,7 @@ class PaymentAvisioTest(BaseTest):
 
         self.assertEquals(res.status_code, 200, 'HTTP code is not 200')
 
-        body = '<?xml version="1.0" encoding="UTF-8"?>\n<paymentAvisoResponse code="1" message="Ошибка при проверке MD5 платеж #8123294469" />'
+        body = '<?xml version="1.0" encoding="UTF-8"?>\n<paymentAvisoResponse code="1" message="Ошибка при проверке MD5 платеж #8123294469" />'.encode('utf-8')
         self.assertEqual(body, res.body, 'Body is not contains code="1"')
 
         payment = Payment.objects.get(pk=payment.pk)
@@ -201,7 +203,7 @@ class PaymentAvisioTest(BaseTest):
 
         self.assertEquals(res.status_code, 200, 'HTTP code is not 200')
 
-        body = '<?xml version="1.0" encoding="UTF-8"?>\n<paymentAvisoResponse code="200" />'
+        body = b'<?xml version="1.0" encoding="UTF-8"?>\n<paymentAvisoResponse code="200" />'
         self.assertEqual(body, res.body, 'Body is not contains code="200"')
 
         payment = Payment.objects.get(pk=payment.pk)
