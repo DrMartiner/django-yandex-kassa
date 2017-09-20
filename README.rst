@@ -70,7 +70,7 @@ django-yandex-kassa
         YANDEX_KASSA_FAIL_URL = '/kassa/fail/'
         YANDEX_KASSA_SUCCESS_URL = '/kassa/success/'
 
-        YANDEX_KASSA_PAYMENT_TYPE = ['ab', 'ac', 'gp', 'pb', 'pc', 'wm']
+        YANDEX_KASSA_PAYMENT_TYPE = ['AB', 'AC', 'GP', 'PB', 'PC', 'WM']
 
 
 #. Указать в рабочем Яндекс Кассы кабинете натсрйоки для приема уведомлений:
