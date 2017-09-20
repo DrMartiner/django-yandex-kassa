@@ -47,7 +47,7 @@ class BaseFormView(FormView):
 
     def get_xml(self, params):
         elem = self.get_xml_element(**params)
-        return ElementTree.tostring(elem, 'unicode', 'xml')
+        return ElementTree.tostring(elem, 'utf-8', 'xml')
 
     def get_response(self, content):
         content = '<?xml version="1.0" encoding="UTF-8"?>\n' + content
