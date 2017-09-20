@@ -23,12 +23,13 @@ CALLBACK_URL = getattr(settings, 'YANDEX_KASSA_CALLBACK_URL', '/kassa/callback/'
 FAIL_URL = getattr(settings, 'YANDEX_KASSA_FAIL_URL', '/kassa/fail/')
 SUCCESS_URL = getattr(settings, 'YANDEX_KASSA_SUCCESS_URL', '/kassa/success/')
 
-PAYMENT_TYPES = getattr(settings, 'YANDEX_KASSA_PAYMENT_TYPE')
+PAYMENT_TYPES = getattr(settings, 'YANDEX_KASSA_PAYMENT_TYPE', None)
 
 if PAYMENT_TYPES:
     msg = 'YANDEX_KASSA_PAYMENT_TYPE was deprecated. Rename it to YANDEX_KASSA_PAYMENT_TYPES'
     logger.warning(msg)
 else:
-    PAYMENT_TYPES = getattr(settings, 'YANDEX_KASSA_PAYMENT_TYPES')
+    PAYMENT_TYPES = getattr(settings, 'YANDEX_KASSA_PAYMENT_TYPES', None)
+
 if not PAYMENT_TYPES:
     PAYMENT_TYPES = ['AB', 'AC', 'GP', 'PB', 'PC', 'WM']
